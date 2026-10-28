@@ -1,9 +1,10 @@
 {
   "schema_version": 1,
   "name": "DSH 养鱼部署包",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "readme_url": "https://raw.githubusercontent.com/Oblivious0214/dsh-fish-deploy/main/README.md",
   "tested_dsh_version": "0.2.1-rc.3-22ddee3",
+  "minimum_dsh_version": "0.2.1-rc.3",
   "preferred_tool": "plugin_manager",
   "list_request": {
     "action": "list_bundles",
@@ -13,6 +14,7 @@
     {
       "name": "dsh-persona-switcher",
       "version": "0.3.1-toy.14",
+      "sha256": "69193ccdbe6e31e075d5205de34ab162fb74e909cbb6cee2d956372842f6c7cd",
       "install_request": {
         "action": "install_bundle",
         "target": "https://github.com/Oblivious0214/dsh-toy-persona/releases/download/v0.3.1-toy.14/dsh-persona-switcher-0.3.1-toy.14.tgz",
@@ -22,6 +24,7 @@
     {
       "name": "dsh-qq-skin",
       "version": "0.2.0-toy.7",
+      "sha256": "1081498da3d2d9c1dcc06e3c8a4998621d78e53e9ab3a00ed1ee7e0b52fbebac",
       "install_request": {
         "action": "install_bundle",
         "target": "https://github.com/Oblivious0214/dsh-toy-qq/releases/download/v0.2.0-toy.7/dsh-qq-skin-0.2.0-toy.7.tgz",
@@ -32,14 +35,35 @@
   "optional_packages": [
     {
       "name": "dsh-meme",
-      "target": "github:yyh-001/dsh-meme"
+      "target": "dsh-meme@0.1.65",
+      "requires_git": false,
+      "git_alternative": "github:yyh-001/dsh-meme"
     },
     {
       "name": "dsh-fish-tts",
-      "target": "github:MaRi23333/dsh-fish-tts"
+      "target": "github:MaRi23333/dsh-fish-tts",
+      "requires_git": true
     }
   ],
   "pre_install_checks": [
+    {
+      "id": "dsh-version",
+      "scope": "entire_deployment",
+      "severity": "required",
+      "minimum_version": "0.2.1-rc.3",
+      "message": "本套插件要求先更新至 DSH 0.2.1-rc.3 或兼容的更高版本；不更新则结束整套安装。",
+      "action": "在下载插件、修改依赖、停用插件或改写配置前核实当前运行实例的版本。低于最低版本时要求先更新 DSH；更新后重启并重新核验，才可继续。更高版本仍须通过插件自身的兼容检查。",
+      "on_version_unknown": "stop_deployment",
+      "on_update_declined": "stop_deployment",
+      "on_update_deferred": "stop_deployment",
+      "on_update_failed": "stop_deployment",
+      "resume_condition": "当前运行的 DSH 已满足最低版本，且插件兼容性检查未拒绝。",
+      "do_not_continue_with": [
+        "dsh-persona-switcher",
+        "dsh-meme",
+        "dsh-fish-tts"
+      ]
+    },
     {
       "target_package": "dsh-qq-skin",
       "severity": "strong_recommendation",
@@ -56,5 +80,32 @@
       ],
       "after_install": "确认界面正常后按需逐个恢复其他 UI 插件；有错位、重复气泡或按钮异常时先停用冲突项并按提示重启。"
     }
-  ]
+  ],
+  "download_failure_policy": {
+    "first_action": "核对 DSH/pnpm/Node 的实际代理路径、配置、继承的环境变量及附件重定向域名分流；不得仅凭超时认定插件或 Node 有缺陷。",
+    "git_proxy_applies_to_release_tgz": false,
+    "fallback": "保持证书校验，从原始 Release 链接下载到当前实际 profile 下的持久缓存，校验对应 sha256 后通过 dsh plugin 使用 file: 绝对路径安装；保留宿主兼容性检查。",
+    "fallback_request_timeout_seconds": 30,
+    "max_fallback_download_attempts": 1,
+    "retain_local_tarball": true,
+    "record": ["source_url", "version", "sha256", "local_path"],
+    "on_integrity_mismatch": "stop_deployment",
+    "on_fallback_failed": "pause_deployment_and_request_user_tgz",
+    "manual_handoff": {
+      "download_links_from": "packages[].install_request.target",
+      "only_request_missing_packages": true,
+      "include_release_page_alternative": true,
+      "message": "自动下载未成功，我已暂停安装。请用浏览器下载列出的 .tgz 文件，不用解压，然后把文件拖进当前 DSH 对话发送给我。收到并校验通过后，我会从未完成的步骤继续。",
+      "wait_for": "user_supplied_tgz_attachments_in_current_conversation",
+      "while_waiting": "结束本轮等待附件，保留已完成步骤；不继续其他安装或配置，不后台下载、循环重试或轮询。",
+      "on_attachment_unreadable_or_mismatch": "remain_paused_and_request_correct_tgz",
+      "resume_requires": [
+        "用户已提供当前仍缺少的 TGZ，且附件文件可读取",
+        "包名、版本和清单中的 SHA-256 校验通过",
+        "TGZ 已复制到当前实际 profile 下的持久缓存",
+        "重新确认当前 DSH 满足最低版本，保留宿主兼容性检查"
+      ],
+      "resume_action": "从未完成的步骤继续 file: 安装，保留已完成的步骤和已有配置，不重复请求同一任务的安装确认。"
+    }
+  }
 }
