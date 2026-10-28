@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "name": "DSH 养鱼部署包",
+  "version": "0.1.1",
+  "readme_url": "https://raw.githubusercontent.com/Oblivious0214/dsh-fish-deploy/main/README.md",
+  "tested_dsh_version": "0.2.1-rc.3-22ddee3",
+  "preferred_tool": "plugin_manager",
+  "list_request": {
+    "action": "list_bundles",
+    "limit": 100
+  },
+  "packages": [
+    {
+      "name": "dsh-persona-switcher",
+      "version": "0.3.1-toy.13",
+      "install_request": {
+        "action": "install_bundle",
+        "target": "https://github.com/Oblivious0214/dsh-toy-persona/releases/download/v0.3.1-toy.13/dsh-persona-switcher-0.3.1-toy.13.tgz",
+        "enabled": true
+      }
+    },
+    {
+      "name": "dsh-qq-skin",
+      "version": "0.2.0-toy.4",
+      "install_request": {
+        "action": "install_bundle",
+        "target": "https://github.com/Oblivious0214/dsh-toy-qq/releases/download/v0.2.0-toy.4/dsh-qq-skin-0.2.0-toy.4.tgz",
+        "enabled": true
+      }
+    }
+  ],
+  "optional_packages": [
+    { "name": "dsh-meme", "target": "github:yyh-001/dsh-meme" },
+    { "name": "dsh-fish-tts", "target": "github:MaRi23333/dsh-fish-tts" }
+  ]
+}

@@ -1,6 +1,11 @@
-# DSH 养鱼部署包 v0.1.0
+# DSH 养鱼部署包 v0.1.1
 
-首个预发布版本。把[项目链接](https://github.com/Oblivious0214/dsh-fish-deploy)发给 DSH，让它读取首页并按说明完成部署。
+部署流程说明更新。建议直接将[部署说明直链](https://raw.githubusercontent.com/Oblivious0214/dsh-fish-deploy/main/README.md)发给 DSH，避免 GitHub 导航页面影响读取。
+
+- 增加原始文档直链和机器可读 `deploy.json` 安装清单。
+- 明确优先使用内置插件管理器，提供可直接使用的安装请求。
+- 内置工具不可用时才使用已有 DSH 命令或插件页面，不再从宿主源码寻找安装入口。
+- 明确 Windows 下载失败时的处理顺序，避免反复切换脚本、镜像和下载方式。
 
 - 组合人设切换 `0.3.1-toy.13` 与 QQ 聊天界面 `0.2.0-toy.4`，通过 GitHub TGZ 链接安装。
 - 引导更换头像、选择分段方式、创建人格，并在对话前选中人格。

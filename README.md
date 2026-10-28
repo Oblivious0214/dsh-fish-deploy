@@ -1,10 +1,14 @@
 # DSH 养鱼部署包
 
+**给 DSH 的部署说明直链：** https://raw.githubusercontent.com/Oblivious0214/dsh-fish-deploy/main/README.md
+
+**机器可读安装清单：** https://raw.githubusercontent.com/Oblivious0214/dsh-fish-deploy/main/deploy.json
+
 ## 给人类看
 
 通过几个插件组合，让 DSH 获得类似 QQ 的聊天界面，并支持角色扮演。兼容表情包和 AI 语音 TTS 插件，不用准备 QQ 小号，也省去养鱼小号被封的顾虑。
 
-**把本项目链接发给 DSH，让它帮你部署即可。**
+**把上面的部署说明直链发给 DSH，让它帮你部署即可。** 直链只返回文档正文，避免 GitHub 导航页面影响读取。
 
 项目链接：https://github.com/Oblivious0214/dsh-fish-deploy
 
@@ -12,9 +16,33 @@
 
 当用户将本项目链接交给你进行部署时，请完成基础安装，再引导用户设置聊天外观和人格，最后按需添加表情包、语音功能。
 
+### 先走这条安装路径
+
+本页已经给出全部安装目标。直接按下列顺序操作，无需浏览两个插件的仓库、克隆源码或自行编写安装程序。
+
+1. 优先使用当前会话已提供的内置 `plugin_manager`。先调用 `{"action":"list_bundles","limit":100}`，根据结果检查是否已安装；有 `nextOffset` 时继续翻页。该工具已经绑定当前 profile，无需先寻找 profile 路径或安装入口。
+2. 对尚未安装的目标，分别调用下面的两个安装请求。不要为了安装 TGZ 先自行下载、解压或重打包。
+3. 根据结果中的状态和 `nextStep` 处理启用、重启或错误，再继续本页的配置引导。权限被拒绝时停下，按正常权限流程处理。
+
+人设切换：
+
+```json
+{"action":"install_bundle","target":"https://github.com/Oblivious0214/dsh-toy-persona/releases/download/v0.3.1-toy.13/dsh-persona-switcher-0.3.1-toy.13.tgz","enabled":true}
+```
+
+QQ 聊天界面：
+
+```json
+{"action":"install_bundle","target":"https://github.com/Oblivious0214/dsh-toy-qq/releases/download/v0.2.0-toy.4/dsh-qq-skin-0.2.0-toy.4.tgz","enabled":true}
+```
+
+**工具不可用时再使用备用入口：** 检查当前环境是否已有 `dsh` 命令，并确认实际 profile；使用 `dsh plugin --profile <实际 profile> add "<上面的 TGZ 链接>"`。不要重新安装 DSH，也不要默认猜测 profile 是 `desktop` 或 `web`。命令不可用时，引导用户在 DSH「插件」页通过 TGZ 链接安装。
+
+**读取或下载失败时：** GitHub 页面只返回导航，就直接读取顶部的原始文档直链；不再反复抓取仓库页面。Windows 命令行出现 `schannel`／凭据不可用时，先使用内置安装入口；确需下载本地包时，为自行发起的下载设置 30 秒超时，最多尝试一次保持证书校验的备用下载方式，失败后给出手工安装链接和具体错误。不要连续切换多种脚本、镜像或修改系统网络设置。
+
 ### 一、安装基础插件
 
-当前验证环境为 DSH `0.2.1-rc.3-22ddee3`。先检查当前版本、profile 和已安装插件，核对兼容性。
+当前验证环境为 DSH `0.2.1-rc.3-22ddee3`。先使用当前上下文已有的版本信息；内置管理器会检查包声明的兼容要求。无需为查版本扫描宿主源码、整个磁盘或用户目录。遇到不兼容时报告，不自动绕过检查。
 
 | 插件 | 版本 | 安装包 |
 | --- | --- | --- |
