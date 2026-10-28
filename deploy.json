@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "DSH 养鱼部署包",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "readme_url": "https://raw.githubusercontent.com/Oblivious0214/dsh-fish-deploy/main/README.md",
   "tested_dsh_version": "0.2.1-rc.3-22ddee3",
   "preferred_tool": "plugin_manager",
@@ -12,25 +12,49 @@
   "packages": [
     {
       "name": "dsh-persona-switcher",
-      "version": "0.3.1-toy.13",
+      "version": "0.3.1-toy.14",
       "install_request": {
         "action": "install_bundle",
-        "target": "https://github.com/Oblivious0214/dsh-toy-persona/releases/download/v0.3.1-toy.13/dsh-persona-switcher-0.3.1-toy.13.tgz",
+        "target": "https://github.com/Oblivious0214/dsh-toy-persona/releases/download/v0.3.1-toy.14/dsh-persona-switcher-0.3.1-toy.14.tgz",
         "enabled": true
       }
     },
     {
       "name": "dsh-qq-skin",
-      "version": "0.2.0-toy.4",
+      "version": "0.2.0-toy.7",
       "install_request": {
         "action": "install_bundle",
-        "target": "https://github.com/Oblivious0214/dsh-toy-qq/releases/download/v0.2.0-toy.4/dsh-qq-skin-0.2.0-toy.4.tgz",
+        "target": "https://github.com/Oblivious0214/dsh-toy-qq/releases/download/v0.2.0-toy.7/dsh-qq-skin-0.2.0-toy.7.tgz",
         "enabled": true
       }
     }
   ],
   "optional_packages": [
-    { "name": "dsh-meme", "target": "github:yyh-001/dsh-meme" },
-    { "name": "dsh-fish-tts", "target": "github:MaRi23333/dsh-fish-tts" }
+    {
+      "name": "dsh-meme",
+      "target": "github:yyh-001/dsh-meme"
+    },
+    {
+      "name": "dsh-fish-tts",
+      "target": "github:MaRi23333/dsh-fish-tts"
+    }
+  ],
+  "pre_install_checks": [
+    {
+      "target_package": "dsh-qq-skin",
+      "severity": "strong_recommendation",
+      "message": "QQ 聊天界面可能与其他 UI 美化插件冲突，强烈建议先关闭其他 UI 美化插件，再安装或启用 QQ 聊天界面。",
+      "inspect": [
+        "已启用的其他皮肤、主题美化、气泡和聊天布局插件",
+        "旧版 dsh-toy-qq 和独立对话分段插件"
+      ],
+      "action": "安装或升级前先列出并处理潜在冲突；按用户授权停用并保留配置，未授权时引导用户手动关闭，不批量停用无关插件。",
+      "preserve": [
+        "dsh-persona-switcher",
+        "dsh-fish-tts",
+        "dsh-meme"
+      ],
+      "after_install": "确认界面正常后按需逐个恢复其他 UI 插件；有错位、重复气泡或按钮异常时先停用冲突项并按提示重启。"
+    }
   ]
 }

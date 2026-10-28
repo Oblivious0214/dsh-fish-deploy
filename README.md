@@ -6,6 +6,8 @@
 
 ## 给人类看
 
+**安装有兼容条件：QQ 聊天界面可能与其他 UI 美化插件冲突，强烈建议先关闭其他 UI 美化插件，再安装或启用 QQ 聊天界面。** 其他皮肤、主题美化、气泡或聊天布局插件可能覆盖同一界面；独立分段插件也应停用。安装完成并确认界面正常后，再按需逐个恢复其他插件。
+
 通过几个插件组合，让 DSH 获得类似 QQ 的聊天界面，并支持角色扮演。兼容表情包和 AI 语音 TTS 插件，不用准备 QQ 小号，也省去养鱼小号被封的顾虑。
 
 **把上面的部署说明直链发给 DSH，让它帮你部署即可。** 直链只返回文档正文，避免 GitHub 导航页面影响读取。
@@ -16,24 +18,30 @@
 
 当用户将本项目链接交给你进行部署时，请完成基础安装，再引导用户设置聊天外观和人格，最后按需添加表情包、语音功能。
 
+### 安装前先检查兼容性
+
+**安装有兼容条件：QQ 聊天界面可能与其他 UI 美化插件冲突，强烈建议先关闭其他 UI 美化插件，再安装或启用 QQ 聊天界面。** 其他皮肤、主题美化、气泡或聊天布局插件可能覆盖同一界面；独立分段插件也应停用。安装完成并确认界面正常后，再按需逐个恢复其他插件。
+
+使用下方插件清单检查结果，先识别已启用的其他 UI 美化插件，向用户说明可能冲突的项目，建议先停用并保留配置；根据用户的部署授权处理，未授权停用时请用户先手动关闭。保留人设、Fish TTS、表情包等功能插件，不把“关闭其他插件”理解为停用所有插件。插件类型无法判断时说明情况，不直接批量停用。
+
 ### 先走这条安装路径
 
 本页已经给出全部安装目标。直接按下列顺序操作，无需浏览两个插件的仓库、克隆源码或自行编写安装程序。
 
-1. 优先使用当前会话已提供的内置 `plugin_manager`。先调用 `{"action":"list_bundles","limit":100}`，根据结果检查是否已安装；有 `nextOffset` 时继续翻页。该工具已经绑定当前 profile，无需先寻找 profile 路径或安装入口。
-2. 对尚未安装的目标，分别调用下面的两个安装请求。不要为了安装 TGZ 先自行下载、解压或重打包。
+1. 优先使用当前会话已提供的内置 `plugin_manager`。先调用 `{"action":"list_bundles","limit":100}`，根据结果检查是否已安装，并完成上面的 UI 插件冲突检查；有 `nextOffset` 时继续翻页。该工具已经绑定当前 profile，无需先寻找 profile 路径或安装入口。
+2. 完成兼容检查后，对尚未安装或需要升级的目标，分别调用下面的两个安装请求。不要为了安装 TGZ 先自行下载、解压或重打包。
 3. 根据结果中的状态和 `nextStep` 处理启用、重启或错误，再继续本页的配置引导。权限被拒绝时停下，按正常权限流程处理。
 
 人设切换：
 
 ```json
-{"action":"install_bundle","target":"https://github.com/Oblivious0214/dsh-toy-persona/releases/download/v0.3.1-toy.13/dsh-persona-switcher-0.3.1-toy.13.tgz","enabled":true}
+{"action":"install_bundle","target":"https://github.com/Oblivious0214/dsh-toy-persona/releases/download/v0.3.1-toy.14/dsh-persona-switcher-0.3.1-toy.14.tgz","enabled":true}
 ```
 
 QQ 聊天界面：
 
 ```json
-{"action":"install_bundle","target":"https://github.com/Oblivious0214/dsh-toy-qq/releases/download/v0.2.0-toy.4/dsh-qq-skin-0.2.0-toy.4.tgz","enabled":true}
+{"action":"install_bundle","target":"https://github.com/Oblivious0214/dsh-toy-qq/releases/download/v0.2.0-toy.7/dsh-qq-skin-0.2.0-toy.7.tgz","enabled":true}
 ```
 
 **工具不可用时再使用备用入口：** 检查当前环境是否已有 `dsh` 命令，并确认实际 profile；使用 `dsh plugin --profile <实际 profile> add "<上面的 TGZ 链接>"`。不要重新安装 DSH，也不要默认猜测 profile 是 `desktop` 或 `web`。命令不可用时，引导用户在 DSH「插件」页通过 TGZ 链接安装。
@@ -46,8 +54,8 @@ QQ 聊天界面：
 
 | 插件 | 版本 | 安装包 |
 | --- | --- | --- |
-| [人设切换](https://github.com/Oblivious0214/dsh-toy-persona/tree/feat/dsh-toy-persona) | `0.3.1-toy.13` | [TGZ 安装链接](https://github.com/Oblivious0214/dsh-toy-persona/releases/download/v0.3.1-toy.13/dsh-persona-switcher-0.3.1-toy.13.tgz) |
-| [QQ 聊天界面](https://github.com/Oblivious0214/dsh-toy-qq/tree/feat/dsh-toy-qq) | `0.2.0-toy.4` | [TGZ 安装链接](https://github.com/Oblivious0214/dsh-toy-qq/releases/download/v0.2.0-toy.4/dsh-qq-skin-0.2.0-toy.4.tgz) |
+| [人设切换](https://github.com/Oblivious0214/dsh-toy-persona/tree/feat/dsh-toy-persona) | `0.3.1-toy.14` | [TGZ 安装链接](https://github.com/Oblivious0214/dsh-toy-persona/releases/download/v0.3.1-toy.14/dsh-persona-switcher-0.3.1-toy.14.tgz) |
+| [QQ 聊天界面](https://github.com/Oblivious0214/dsh-toy-qq/tree/feat/dsh-toy-qq) | `0.2.0-toy.7` | [TGZ 安装链接](https://github.com/Oblivious0214/dsh-toy-qq/releases/download/v0.2.0-toy.7/dsh-qq-skin-0.2.0-toy.7.tgz) |
 
 使用内置 `plugin_manager` 的 `install_bundle` 操作，将 TGZ 直链作为 `target`，安装到当前 profile 并启用。
 
@@ -100,6 +108,7 @@ QQ 聊天界面：
 最后简要说明：
 
 - 两个基础插件是否安装、启用，是否需要重启。
+- 哪些其他 UI 美化插件已停用，是否仍有未排查的兼容问题。
 - 用户选择的头像、分段方式和当前人格。
 - 表情包、语音是否已配置，还有哪些步骤需要用户完成。
 
