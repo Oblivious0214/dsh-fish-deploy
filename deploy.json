@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "name": "DSH 养鱼部署包",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "readme_url": "https://raw.githubusercontent.com/Oblivious0214/dsh-fish-deploy/main/README.md",
   "tested_dsh_version": "0.2.1-rc.3-22ddee3",
   "minimum_dsh_version": "0.2.1-rc.3",
@@ -23,20 +23,6 @@
     }
   ],
   "optional_packages": [
-    {
-      "name": "dsh-toy-buttplug",
-      "version": "0.1.15",
-      "sha256": "43dbf778719603f05740ad6e7dde7405d614fd58aef7c766e3bf945b68d7acff",
-      "install_request": {
-        "action": "install_bundle",
-        "target": "https://github.com/Oblivious0214/dsh-toy-buttplug/releases/download/v0.1.15/dsh-toy-buttplug-0.1.15.tgz",
-        "enabled": true
-      },
-      "requires": [
-        "dsh-qqbot"
-      ],
-      "requires_explicit_device_authorization": true
-    },
     {
       "name": "dsh-meme",
       "target": "dsh-meme@0.1.65",
@@ -138,5 +124,13 @@
       ],
       "resume_action": "从未完成的步骤继续 file: 安装，保留已完成的步骤和已有配置，不重复请求同一任务的安装确认。"
     }
-  }
+  },
+  "unavailable_packages": [
+    {
+      "name": "dsh-toy-buttplug",
+      "status": "private-development",
+      "public_install_available": false,
+      "action": "尚未完成，仓库和安装包暂不公开；本流程不下载安装。"
+    }
+  ]
 }
